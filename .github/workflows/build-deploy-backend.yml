@@ -23,21 +23,34 @@ env:
   AZURE_WEBAPP_NAME: your-app-name    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
+  WORKING_DIRECTORY_PATH: 'WebAPI' # set this to the path to your web app project, defaults to the repository root
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "feature*" ]
   workflow_dispatch:
 
-permissions:
-  contents: read
+# permissions:
+#   contents: read
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repository
+        uses: actions/checkout@v4
+  
+      - name: Set build number
+        run: |
+          echo "GITHUB_ENV=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          echo "GITHUB_ENV=${GITHUB_ENV}" >> $GITHUB_ENV
+          echo "GITHUB_RUN_ID=${GITHUB_RUN_ID}" >> $GITHUB_ENV
+          echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
+
+      - name: Show build number
+        run: echo "Build number is $BUILD_NUMBER"
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -54,9 +67,11 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build --configuration Release
+        working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: dotnet publish
         run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
