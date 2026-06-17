@@ -58,7 +58,9 @@ jobs:
           echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
 
       - name: Show build number
-        run: echo "Build number is $BUILD_NUMBER"
+        run: |
+            echo "Build number is $BUILD_NUMBER"
+            echo "PROJECT_PATH is $PROJECT_PATH"
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -74,7 +76,7 @@ jobs:
       #       ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore ${{ env.PROJECT_PATH }}
+        run: dotnet restore $PROJECT_PATH
 
       - name: Build with dotnet
         run: dotnet build $PROJECT_PATH --configuration Release
