@@ -71,7 +71,7 @@ jobs:
 
     - name: npm test
       run: |
-        npm run test:coverage
+        npm run test
       working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
     - name: Upload artifact for deployment job
