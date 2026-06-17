@@ -25,7 +25,7 @@ on:
 env:
   AZURE_WEBAPP_NAME: your-app-name    # set this to your application's name
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
-  NODE_VERSION: '20.x'                # set this to the node version to use
+  NODE_VERSION: '20.19.0'                # set this to the node version to use
 
 permissions:
   contents: read
@@ -45,21 +45,25 @@ jobs:
     - name: npm install
       run: |
         npm install
+      working-directory: UI
        
     
     - name: npm build
-      run: |
-        npm run build --if-present
+      run: npm run build --if-present
+      working-directory: UI
 
     - name: npm test
       run: |
         npm run test --if-present
+      working-directory: UI
 
     - name: Upload artifact for deployment job
       uses: actions/upload-artifact@v4
       with:
-        name: node-app
-        path: ./publish # Update this path if your build output is in a different directory
+        name: node-app-artifact
+        path: /UI/publish # Update this path if your build output is in a different directory
+        if-no-files-found: error
+        overwrite: true
 
   # deploy:
   #   permissions:
