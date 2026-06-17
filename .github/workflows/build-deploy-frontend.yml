@@ -53,11 +53,10 @@ jobs:
     - name: Show build number
       run: echo "Build number is $BUILD_NUMBER"
 
-    - name: Set build version
+    - name: Set build version in version.json
       run: |
           echo "Updating React version.json"
-          echo "{\"version\": \"$BUILD_NUMBER\"}" > ./WebAPI/src/version.json
-
+          echo "{\"version\": \"$BUILD_NUMBER\"}" > ./UI/my-app/src/version.json
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
