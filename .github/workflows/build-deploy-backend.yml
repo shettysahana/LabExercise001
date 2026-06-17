@@ -36,9 +36,10 @@ on:
         type: choice
         description: "Select environment"
         options:
-          - dev
-          - test
-          - prod  
+          - Development
+          - Staging
+          - Test
+          - Production  
 
 # permissions:
 #   contents: read
@@ -51,18 +52,16 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         
-      - name: Set build number
+      - name: Set and Show build number
         run: |
-          # echo "GITHUB_ENV=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
           # echo "GITHUB_ENV=${GITHUB_ENV}" >> $GITHUB_ENV
-          # echo "GITHUB_RUN_ID=${GITHUB_RUN_ID}" >> $GITHUB_ENV
           # echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}" >> $GITHUB_ENV
-          echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
+          echo "BUILD_NUMBER=06.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
+          echo "Build number is $BUILD_NUMBER"
 
-      - name: Show build number
-        run: |
-            echo "Build number is $BUILD_NUMBER"
-            echo "PROJECT_PATH is $PROJECT_PATH"
+          #ASPNETCORE_ENVIRONMENT in launchsettings.json decides which appsettings.json file to use.
+      - name: Set environment
+        run: echo "ASPNETCORE_ENVIRONMENT=${{ github.event.inputs.environment }}" >> $GITHUB_ENV
 
       - name: Set up .NET Core
         uses: actions/setup-dotnet@v4
@@ -84,13 +83,13 @@ jobs:
         run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PUBLISH_DIRECTORY_PATH }}
+        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PUBLISH_DIRECTORY_PATH }}/${{ env.ASPNETCORE_ENVIRONMENT }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: ${{ env.ARTIFACT_NAME }}
-          path: ${{ env.PUBLISH_DIRECTORY_PATH }}
+          path: ${{ env.PUBLISH_DIRECTORY_PATH }}/${{ env.ASPNETCORE_ENVIRONMENT }}
           if-no-files-found: error
 
   deploy:

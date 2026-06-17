@@ -52,9 +52,7 @@ jobs:
 
     - name: Set build number
       run: |
-          echo "GITHUB_ENV=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
           echo "GITHUB_ENV=${GITHUB_ENV}" >> $GITHUB_ENV
-          echo "GITHUB_RUN_ID=${GITHUB_RUN_ID}" >> $GITHUB_ENV
           echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}" >> $GITHUB_ENV
           echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
 
@@ -72,16 +70,14 @@ jobs:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
         cache-dependency-path: '**/package-lock.json'
-        
 
     - name: npm install
       run: |
         npm install
       working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
-       
     
     - name: npm build
-      run: npm run build --if-present
+      run: npm run build:${{ github.event.inputs.environment }} --if-present
       working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
     - name: npm test
