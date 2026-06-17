@@ -41,8 +41,8 @@ jobs:
     - name: Set build number
       run: |
           echo ${GITHUB_RUN_NUMBER}
-          echo $GITHUB_ENV
-          echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          echo ${GITHUB_ENV}
+          echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
 
     - name: Show build number
       run: echo "Build number is $BUILD_NUMBER"
@@ -52,6 +52,8 @@ jobs:
       with:
         node-version: ${{ env.NODE_VERSION }}
         cache: 'npm'
+        cache-dependency-path: '**/package-lock.json'
+        
 
     - name: npm install
       run: |
