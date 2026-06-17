@@ -1,4 +1,4 @@
-name: Creating Azure Web App
+name: Creating Azure Web App on Azure platform using GitHub Actions
 on:
   workflow_dispatch:
 
