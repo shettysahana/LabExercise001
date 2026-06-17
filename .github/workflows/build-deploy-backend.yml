@@ -24,6 +24,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
   WORKING_DIRECTORY_PATH: 'WebAPI' # set this to the path to your web app project, defaults to the repository root
+  PUBLISH_DIRECTORY_PATH: '${{env.DOTNET_ROOT}}/WebAPI/$BUILD_NUMBER' # set this to the path to your web app project, defaults to the repository root
 
 on:
   push:
@@ -70,14 +71,14 @@ jobs:
         working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: dotnet publish
-        run: dotnet publish -c Release -o ${{env.DOTNET_ROOT}}/myapp
+        run: dotnet publish -c Release -o ${{ env.PUBLISH_DIRECTORY_PATH }}
         working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{env.DOTNET_ROOT}}/myapp
+          path: ${{ env.PUBLISH_DIRECTORY_PATH }}
 
   # deploy:
   #   permissions:
