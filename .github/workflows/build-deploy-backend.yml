@@ -24,6 +24,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
   WORKING_DIRECTORY_PATH: 'WebAPI' # set this to the path to your web app project, defaults to the repository root
+  ARTIFACT_NAME: 'dotnet-backend-api' # set this to the name of the artifact to be uploaded
 
 on:
   push:
@@ -43,7 +44,7 @@ jobs:
 
       - name: Set environment variables
         run: |
-           echo "PUBLISH_DIRECTORY_PATH=${{ env.WORKING_DIRECTORY_PATH }}/myapp" >> $GITHUB_ENV
+           echo "PUBLISH_DIRECTORY_PATH=backend/publish" >> $GITHUB_ENV
            echo "PROJECT_PATH=${{ env.WORKING_DIRECTORY_PATH }}/WebAPI.csproj" >> $GITHUB_ENV
      
   
@@ -85,7 +86,7 @@ jobs:
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: .net-backend-api
+          name: ${ { env.ARTIFACT_NAME } }
           path: $PUBLISH_DIRECTORY_PATH
           if-no-files-found: error
 
@@ -102,7 +103,7 @@ jobs:
       - name: Download artifact from build job
         uses: actions/download-artifact@v4
         with:
-          name: .net-backend-api
+          name: ${{ env.ARTIFACT_NAME }}
 
       # - name: Deploy to Azure Web App
       #   id: deploy-to-webapp
