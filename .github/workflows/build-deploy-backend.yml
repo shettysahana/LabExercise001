@@ -37,20 +37,24 @@ jobs:
   build:
     runs-on: ubuntu-latest
 
-    env:
-      PUBLISH_DIRECTORY_PATH: ${{ env.WORKING_DIRECTORY_PATH }}/myapp
-      PROJECT_PATH: ${{ env.WORKING_DIRECTORY_PATH }}/WebAPI.csproj
+   
 
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Set environment variables
+        run: |
+           echo "PUBLISH_DIRECTORY_PATH=${{ env.WORKING_DIRECTORY_PATH }}/myapp" >> $GITHUB_ENV
+           echo "PROJECT_PATH=${{ env.WORKING_DIRECTORY_PATH }}/WebAPI.csproj" >> $GITHUB_ENV
+     
   
       - name: Set build number
         run: |
-          echo "GITHUB_ENV=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
-          echo "GITHUB_ENV=${GITHUB_ENV}" >> $GITHUB_ENV
-          echo "GITHUB_RUN_ID=${GITHUB_RUN_ID}" >> $GITHUB_ENV
-          echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}" >> $GITHUB_ENV
+          # echo "GITHUB_ENV=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
+          # echo "GITHUB_ENV=${GITHUB_ENV}" >> $GITHUB_ENV
+          # echo "GITHUB_RUN_ID=${GITHUB_RUN_ID}" >> $GITHUB_ENV
+          # echo "GITHUB_WORKSPACE=${GITHUB_WORKSPACE}" >> $GITHUB_ENV
           echo "BUILD_NUMBER=v1.0.${GITHUB_RUN_NUMBER}.${GITHUB_RUN_ID}" >> $GITHUB_ENV
 
       - name: Show build number
@@ -73,18 +77,18 @@ jobs:
         run: dotnet restore ${{ env.PROJECT_PATH }}
 
       - name: Build with dotnet
-        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release
+        run: dotnet build $PROJECT_PATH --configuration Release
         working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: dotnet publish
-        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PUBLISH_DIRECTORY_PATH }}
+        run: dotnet publish $PROJECT_PATH -c Release -o $PUBLISH_DIRECTORY_PATH 
         working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
           name: .net-app
-          path: ${{ env.PUBLISH_DIRECTORY_PATH }}
+          path: $PUBLISH_DIRECTORY_PATH
 
   # deploy:
   #   permissions:
