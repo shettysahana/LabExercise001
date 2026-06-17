@@ -24,7 +24,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
   ARTIFACT_NAME: 'dotnet-backend-api' # set this to the name of the artifact to be uploaded
-  PUBLISH_DIRECTORY_PATH: 'backend/publish' # set this to the path to the publish directory
+  PUBLISH_DIRECTORY_PATH: 'api-backend/publish' # set this to the path to the publish directory
   PROJECT_PATH: 'WebAPI/WebAPI.csproj'
 
 on:

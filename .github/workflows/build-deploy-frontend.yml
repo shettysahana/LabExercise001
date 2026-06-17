@@ -18,6 +18,7 @@
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
 name: Build and deploy Node.js app to an Azure Web App
+
 on:
   push:
     branches: [ "feature*" ]
@@ -51,6 +52,12 @@ jobs:
 
     - name: Show build number
       run: echo "Build number is $BUILD_NUMBER"
+
+    - name: Set build version
+      run: |
+          echo "Updating React version.json"
+          echo "{\"version\": \"$BUILD_NUMBER\"}" > ./WebAPI/src/version.json
+
 
     - name: Set up Node.js
       uses: actions/setup-node@v4
