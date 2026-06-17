@@ -24,8 +24,6 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
   WORKING_DIRECTORY_PATH: 'WebAPI' # set this to the path to your web app project, defaults to the repository root
-  PUBLISH_DIRECTORY_PATH: '${{ env.WORKING_DIRECTORY_PATH }}/myapp' # set this to the path to your web app project, defaults to the repository root
-  PROJECT_PATH: '${{ env.WORKING_DIRECTORY_PATH }}/WebAPI.csproj' # set this to the path to your web app project, defaults to the repository root
 
 on:
   push:
@@ -38,6 +36,10 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
+
+    env:
+      PUBLISH_DIRECTORY_PATH: ${{ env.WORKING_DIRECTORY_PATH }}/myapp
+      PROJECT_PATH: ${{ env.WORKING_DIRECTORY_PATH }}/WebAPI.csproj
 
     steps:
       - name: Checkout repository
