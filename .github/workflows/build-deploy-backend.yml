@@ -31,6 +31,14 @@ on:
   push:
     branches: [ "feature*" ]
   workflow_dispatch:
+   inputs:
+      environment:
+        type: choice
+        description: "Select environment"
+        options:
+          - dev
+          - test
+          - prod  
 
 # permissions:
 #   contents: read

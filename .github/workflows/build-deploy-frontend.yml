@@ -23,6 +23,14 @@ on:
   push:
     branches: [ "feature*" ]
   workflow_dispatch:
+    inputs:
+      environment:
+        type: choice
+        description: "Select environment"
+        options:
+          - dev
+          - test
+          - prod  
 
 env:
   AZURE_WEBAPP_NAME: your-app-name    # set this to your application's name
