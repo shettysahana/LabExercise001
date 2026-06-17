@@ -23,8 +23,9 @@ env:
   AZURE_WEBAPP_NAME: your-app-name    # set this to the name of your Azure Web App
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
-  WORKING_DIRECTORY_PATH: 'WebAPI' # set this to the path to your web app project, defaults to the repository root
   ARTIFACT_NAME: 'dotnet-backend-api' # set this to the name of the artifact to be uploaded
+  PUBLISH_DIRECTORY_PATH: 'backend/publish' # set this to the path to the publish directory
+  PROJECT_PATH: 'WebAPI/WebAPI.csproj'
 
 on:
   push:
@@ -41,13 +42,7 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
-
-      - name: Set environment variables
-        run: |
-           echo "PUBLISH_DIRECTORY_PATH=backend/publish" >> $GITHUB_ENV
-           echo "PROJECT_PATH=${{ env.WORKING_DIRECTORY_PATH }}/WebAPI.csproj" >> $GITHUB_ENV
-     
-  
+        
       - name: Set build number
         run: |
           # echo "GITHUB_ENV=${GITHUB_RUN_NUMBER}" >> $GITHUB_ENV
@@ -75,19 +70,19 @@ jobs:
       #       ${{ runner.os }}-nuget-
 
       - name: Restore dependencies
-        run: dotnet restore $PROJECT_PATH
+        run: dotnet restore ${{ env.PROJECT_PATH }}
 
       - name: Build with dotnet
-        run: dotnet build $PROJECT_PATH --configuration Release --no-restore
+        run: dotnet build ${{ env.PROJECT_PATH }} --configuration Release --no-restore
 
       - name: dotnet publish
-        run: dotnet publish $PROJECT_PATH -c Release -o $PUBLISH_DIRECTORY_PATH 
+        run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PUBLISH_DIRECTORY_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
         with:
-          name: ${ { env.ARTIFACT_NAME } }
-          path: $PUBLISH_DIRECTORY_PATH
+          name: ${{ env.ARTIFACT_NAME }}
+          path: ${{ env.PUBLISH_DIRECTORY_PATH }}
           if-no-files-found: error
 
   deploy:
