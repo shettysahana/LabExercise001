@@ -24,7 +24,7 @@ env:
   AZURE_WEBAPP_PACKAGE_PATH: '.'      # set this to the path to your web app project, defaults to the repository root
   DOTNET_VERSION: '5'                 # set this to the .NET Core version to use
   WORKING_DIRECTORY_PATH: 'WebAPI' # set this to the path to your web app project, defaults to the repository root
-  PUBLISH_DIRECTORY_PATH: '${{env.DOTNET_ROOT}}/WebAPI/$BUILD_NUMBER' # set this to the path to your web app project, defaults to the repository root
+  PUBLISH_DIRECTORY_PATH: '${{ env.WORKING_DIRECTORY_PATH }}/$BUILD_NUMBER' # set this to the path to your web app project, defaults to the repository root
 
 on:
   push:
