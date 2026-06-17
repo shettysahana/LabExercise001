@@ -17,7 +17,7 @@
 # For more information on the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
 # For more samples to get started with GitHub Action workflows to deploy to Azure: https://github.com/Azure/actions-workflow-samples
 
-name: Build and deploy ASP.Net Core app to an Azure Web App
+name: Build and deploy ASP.Net Web API app to an Azure Web App
 
 env:
   AZURE_WEBAPP_NAME: your-app-name    # set this to the name of your Azure Web App
@@ -36,9 +36,7 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-
-   
-
+    
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -80,11 +78,11 @@ jobs:
 
       - name: Build with dotnet
         run: dotnet build $PROJECT_PATH --configuration Release
-        working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
+        # working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: dotnet publish
         run: dotnet publish $PROJECT_PATH -c Release -o $PUBLISH_DIRECTORY_PATH 
-        working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
+        # working-directory: ${{ env.WORKING_DIRECTORY_PATH }}
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
