@@ -44,35 +44,25 @@ export default function InventoryItems()
         <div>
             Inventory details 
             <table>
-                {Object.entries(itemsDetails).map(([category, items]) => (
-                    
-                        <tr>
-                        <th colSpan={2}>{category}
-                        {/*<button onClick={() => HandleAddmoreItems(category)}>ADD More </button*/}
-                        </th>
-                        </tr>
-                        {items.map((item, index) => (
-                            item.source ? (
-                            <tr key={index}>
-                                <td>{item.name}</td>
-                                <td>{item.price}</td>
-                                </tr>
-                            ) : (
-                                    <tr key={index}>
-                                        <td>
-                                             {/*<button onClick={() => handleDelete(category, item) }></button>*/}
-                                            <input type="text" placeholder="Enter name" value={item.name} />
-                                        </td>
-                                        <td>
-                                            <input type="number" placeholder="Enter price" value={item.price} />
+                <tbody>
+                    {Object.entries(itemsDetails).map(([category, items]) => (
+                        <tr key={category}>
+                            <td>{category}</td>
+                            <td>
+                                <ul>
+                                    {items.map(item => (
+                                        <li key={item.name}>
+                                            {item.name} - ${item.price}
+                                            <button onClick={() => handleDelete(category as ItemTypes, item)}>Delete</button>
                                             <button onClick={() => handleSave(item)}>Save</button>
-                                        </td>
-                                    </tr>
-                            )
-                        ))}
-                  
-                ))}
-
+                                        </li>
+                                    ))}
+                                </ul>
+                                <button onClick={() => HandleAddmoreItems(category as ItemTypes)}>Add More Items</button>       
+                            </td>   
+                        </tr>
+                    ))}
+                </tbody>
             </table>
         </div>
     )
