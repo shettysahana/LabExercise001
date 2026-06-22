@@ -1,4 +1,7 @@
 
+from flask import Flask, request, jsonify
+app = Flask(__name__)
+
 //create a simple flask app with two endpoints
 @app.route("/get-user/<int:userid>", methods=["GET"])
 #get api request 
