@@ -1,8 +1,6 @@
 export type ItemTypes = "Grocercy" | "Electronics";
 export type SourceTypes = "Screen" | "Backend";
-export interface InventoryData {
-    Items: Record<ItemTypes, Itemdetails[]>
-}
+
 
 export interface Itemdetails {
     name: string,
@@ -12,8 +10,8 @@ export interface Itemdetails {
 
 
 
-const getItemsDetails = (): InventoryData => {
-    const objInventoryItemsData: InventoryData = {
+export const getItemsDetails = (): Record<ItemTypes, Itemdetails[]> => {
+    const objInventoryItemsData: Record<ItemTypes, Itemdetails[]> = {
         "Grocercy": [{ "name": "Milk", "price": 2.5, "source": "Backend" },
         { "name": "Bread", "price": 1.5, "source": "Backend" }
         ],

@@ -1,10 +1,11 @@
 
-import React from 'react';
-import { getItemsDetails, InventoryData, ItemTypes } from '../data/InventoryData';
-import type { Itemdetails } from '../model/inventoryData';
+import { useEffect , useState } from 'react';
+import { getItemsDetails, type ItemTypes } from '../model/inventoryData.ts';
+import type { Itemdetails } from '../model/inventoryData.ts';
 export default function InventoryItems()
 {
-    const [itemsDetails, setItemsDetails] = React.useState<InventoryData>(getItemsDetails());
+    // use lazy intializer to call function
+    const [itemsDetails, setItemsDetails] = useState<Record<ItemTypes, Itemdetails[]>>(() => getItemsDetails());
 
     const HandleAddmoreItems = (category: ItemTypes) => {
         // Logic to add more items to the specified category
@@ -35,15 +36,19 @@ export default function InventoryItems()
         console.log("Saving changes:", item);
     }
 
+    useEffect(() => {
+       alert("sfsfs");
+    });
 
     return(
         <div>
+            Inventory details 
             <table>
-                {Object.entries(itemsDetails.Items).map(([category, items]) => (
-                    /*<React.Fragment key={category}>*/
+                {Object.entries(itemsDetails).map(([category, items]) => (
+                    
                         <tr>
                         <th colSpan={2}>{category}
-                        <button onClick={() => HandleAddmoreItems(category)}>ADD More </button>
+                        {/*<button onClick={() => HandleAddmoreItems(category)}>ADD More </button*/}
                         </th>
                         </tr>
                         {items.map((item, index) => (
@@ -55,7 +60,7 @@ export default function InventoryItems()
                             ) : (
                                     <tr key={index}>
                                         <td>
-                                            <button onClick={() => handleDelete(category, item) }></button>
+                                             {/*<button onClick={() => handleDelete(category, item) }></button>*/}
                                             <input type="text" placeholder="Enter name" value={item.name} />
                                         </td>
                                         <td>
@@ -65,7 +70,7 @@ export default function InventoryItems()
                                     </tr>
                             )
                         ))}
-                   {/* </React.Fragment>*/}
+                  
                 ))}
 
             </table>
