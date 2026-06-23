@@ -6,8 +6,8 @@ export default function InventoryItems()
 {
     // use lazy intializer to call function
     const [itemsDetails, setItemsDetails] = useState<Record<ItemTypes, Itemdetails[]>>(() => getItemsDetails());
-    const [countTotalItems, setcountTotalItems] = useState<number>(() => handleCountAllItems());
-    const [countCategoryItems, setcountCategoryItems] = useState<Record<ItemTypes, number>>(() => handleCountCategoryItems());
+    const [countTotalItems, setcountTotalItems] = useState<number>(0);
+    const [countCategoryItems, setcountCategoryItems] = useState<Record<ItemTypes, number>>(null);
 
     const HandleAddmoreItems = (category: ItemTypes) => {
         // Logic to add more items to the specified category
@@ -32,24 +32,27 @@ export default function InventoryItems()
         console.log("Saving  changes:", item);
     }
 
-    const handleCountCategoryItems = ():Record<ItemTypes, number> => {
+    const handleCountCategoryItems = () => {
 
-const TotalItems = Object.entries(itemsDetails).reduce((acc,[category, ites]) => {
-    acc[category] = ites.length;
-    return acc;
-},{} as Record<ItemTypes, number>);
-return TotalItems;
+    const TotalItems = Object.entries(itemsDetails).reduce((acc,[category, ites]) => {
+        acc[category] = ites.length;
+        return acc;
+        },{} as Record<ItemTypes, number>);
+
+        setcountCategoryItems(TotalItems);
+    
     }
 
-    const handleCountAllItems = ():number => {
+    const handleCountAllItems = () => {
 
     const AllitemsCount = Object.values(countCategoryItems).reduce((acc, count) => acc + count,0);
-return AllitemsCount;
+    setcountTotalItems(AllitemsCount);
     }
 
     useEffect(() =>
     {
-       
+       handleCountCategoryItems();
+       handleCountAllItems();
     })
 
     return(
@@ -57,21 +60,23 @@ return AllitemsCount;
             Inventory details ({countTotalItems})
             <table>
                 <tbody>
-                    {Object.entries(itemsDetails).map(([category, items]) => (
-                       const catItemsCount: number = countCategoryItems[category];
-                        <tr key={category}>
+                    {Object.entries(itemsDetails).map(([category, items]) => {
+
+                       const catItemsCount: number = countCategoryItems[category as ItemTypes] ?? 0;
+                      return( 
+                         <tr key={category}>
                             <td valign='top'>{category} {catItemsCount} </td>
                             <td valign='top'>
                                 <ul>
                                     {items.map(item => (
                                         item.source === "Backend"
                                         ? 
-                                       (<li key={item.name}>
+                                       (
+                                       <li key={item.name}>
                                             {item.name} - ${item.price}
                                             <button onClick={() => handleDelete(category as ItemTypes, item)}>Delete</button>
                                             <button onClick={() => handleSave(item)}>Save</button>
                                         </li>
-                                       
                                        )
                                         :
                                         (
@@ -87,7 +92,8 @@ return AllitemsCount;
                                 <button onClick={() => HandleAddmoreItems(category as ItemTypes)}>Add More Items</button>       
                             </td>   
                         </tr>
-                    ))}
+                      )
+})}
                 </tbody>
             </table>
         </div>
