@@ -5,18 +5,23 @@ import {useInventory} from '../hooks/useInventory.ts';
 
 export default function InventoryItems()
 {
-    const { 
+    const [
         HandleAddmoreItems,
-        handleDelete,
-        handleSave,
+        HandleDelete,
+        HandleSave,
         setItemsDetails,
         itemsDetails,
         setcountCategoryItems,
         setcountTotalItems,
         countTotalItems,
-        countCategoryItems
+        countCategoryItems,
+        setItemDeleted,
+        itemDeleted,
+        itemUndo,
+        setItemUndo,
+        handleUndoDelete
 
-    } = useInventory();
+    ] = useInventory();
    
    
     return(
@@ -26,14 +31,12 @@ export default function InventoryItems()
                 <tbody>
                     {Object.entries(itemsDetails).map(([category, items]) => {
 
-                       let catItemsCount: number = 0;
-                       if(countCategoryItems > 0)
-                       {
-                        setcountCategoryItems(prev => ({
-                            ...prev,
-                            [category as ItemTypes] : catItemsCount
-                        }));
-                    }  
+                        let catItemsCount: number = 0;
+                        
+                        //setcountCategoryItems(prev => ({
+                        //    ...prev,
+                        //    catItemsCount: prev[category as ItemTypes]  
+                        //}));
                            
                       return( 
                          <tr key={category}>
@@ -46,8 +49,8 @@ export default function InventoryItems()
                                        (
                                        <li key={item.name}>
                                             {item.name} - ${item.price}
-                                            <button onClick={() => handleDelete(category as ItemTypes, item)}>Delete</button>
-                                            <button onClick={() => handleSave(item)}>Save</button>
+                                            <button onClick={() => HandleDelete(category as ItemTypes, item)}>Delete</button>
+                                            <button onClick={() => HandleSave(item)}>Save</button>
                                         </li>
                                        )
                                         :
@@ -55,8 +58,8 @@ export default function InventoryItems()
                                         <li key={item.name}>
                                         <input type='text' defaultValue={item.name}/>
                                          - $ <input type='text' defaultValue={item.price} />
-                                            <button onClick={() => handleDelete(category as ItemTypes, item)}>Delete</button>
-                                            <button onClick={() => handleSave(item)}>Save</button>
+                                            <button onClick={() => HandleDelete(category as ItemTypes, item)}>Delete</button>
+                                            <button onClick={() => HandleSave(item)}>Save</button>
                                         </li>
                                         )
                                     ))}
@@ -68,6 +71,13 @@ export default function InventoryItems()
 })}
                 </tbody>
             </table>
+
+            {itemDeleted && (
+                <div>
+                    <p>Item deleted: {itemDeleted.name}</p>
+                    <button onClick={() => handleUndoDelete()}>Undo</button>
+                </div>
+            )}
         </div>
     )
 }
