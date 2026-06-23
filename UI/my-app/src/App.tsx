@@ -18,11 +18,7 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-            <InventoryItems></InventoryItems>
-          </p>
+        <InventoryItems></InventoryItems>
         </div>
         <button
           type="button"
@@ -114,6 +110,7 @@ function App() {
             </li>
           </ul>
         </div>
+       
       </section>
 
       <div className="ticks"></div>
