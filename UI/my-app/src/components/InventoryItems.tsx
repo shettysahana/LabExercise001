@@ -11,10 +11,10 @@ export default function InventoryItems()
         HandleSave,
         setItemsDetails,
         itemsDetails,
-        setcountCategoryItems,
+        //setcountCategoryItems,
         setcountTotalItems,
         countTotalItems,
-        countCategoryItems,
+        //countCategoryItems,
         setItemDeleted,
         itemDeleted,
         itemUndo,
@@ -30,17 +30,10 @@ export default function InventoryItems()
             <table>
                 <tbody>
                     {Object.entries(itemsDetails).map(([category, items]) => {
-
-                        let catItemsCount: number = 0;
-                        
-                        //setcountCategoryItems(prev => ({
-                        //    ...prev,
-                        //    catItemsCount: prev[category as ItemTypes]  
-                        //}));
-                           
+           
                       return( 
                          <tr key={category}>
-                            <td valign='top'>{category} {catItemsCount} </td>
+                            <td valign='top'>{category} {items.length} </td>
                             <td valign='top'>
                                 <ul>
                                     {items.map(item => (

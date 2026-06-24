@@ -8,18 +8,11 @@ export function useInventory() {
     // use lazy intializer to call function
     const [itemsDetails, setItemsDetails] = useState<Record<ItemTypes, Itemdetails[]>>(() => getItemsDetails());
     const [countTotalItems, setcountTotalItems] = useState<number>(0);
-    const [countCategoryItems, setcountCategoryItems] = useState<Record<ItemTypes, number>>(null);
+    //const [countCategoryItems, setcountCategoryItems] = useState<Record<ItemTypes, number>>(null);
     const [itemDeleted, setItemDeleted] = useState<Itemdetails | null>(null);
     const [itemUndo, setItemUndo] = useState<boolean>(false);
 
-    const HandleAddmoreItems = useCallback((category: ItemTypes) => {
-        // Logic to add more items to the specified category
-        const newItem: Itemdetails = { name: "New Item", price: 0, source: "Screen" }; // Example new item
-        setItemsDetails(prevDetails => ({
-            ...prevDetails,
-            [category]: [...prevDetails[category], newItem]
-        }));
-    }, []);
+    
 
     const HandleDelete = useCallback((category: ItemTypes, item: Itemdetails) => {
         // Logic to delete the specified item
@@ -45,10 +38,12 @@ export function useInventory() {
             acc[category] = itemsDetails[category].length;
             return acc;
         }, {} as Record<ItemTypes, number>);
-        setcountCategoryItems(TotalItems);
+
+        //setcountCategoryItems(TotalItems);
 
         const AllitemsCount = Object.values(TotalItems).reduce((acc, count) => acc + count, 0);
         setcountTotalItems(AllitemsCount);
+
     }, [itemsDetails]);
 
     const handleUndoDelete = useCallback(() => {
@@ -61,16 +56,30 @@ export function useInventory() {
         }
     }, [itemDeleted]);
 
+    const HandleAddmoreItems = useCallback((category: ItemTypes) => {
+        // Logic to add more items to the specified category
+        const newItem: Itemdetails = { name: "New Item", price: 0, source: "Screen" }; // Example new item
+        setItemsDetails(prevDetails => ({
+            ...prevDetails,
+            [category]: [...prevDetails[category], newItem]
+        }));
+        
+    }, [handleCountCategoryItems]);
+
+    useEffect(() => {
+        handleCountCategoryItems();
+    },[]);
+
     return [
         HandleAddmoreItems,
         HandleDelete,
         handleSave,
         setItemsDetails,
         itemsDetails,
-        setcountCategoryItems,
+        //setcountCategoryItems,
         setcountTotalItems,
         countTotalItems,
-        countCategoryItems,
+        //countCategoryItems,
         itemDeleted,
         itemUndo,
         setItemDeleted,
