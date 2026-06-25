@@ -8,6 +8,10 @@ export interface Itemdetails {
     source?: SourceTypes
 }
 
+export type Deleteditem = {
+    category: ItemTypes,
+    item: Itemdetails,
+}
 
 
 export const getItemsDetails = (): Record<ItemTypes, Itemdetails[]> => {

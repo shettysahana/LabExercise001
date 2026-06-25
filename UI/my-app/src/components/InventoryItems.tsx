@@ -5,23 +5,15 @@ import {useInventory} from '../hooks/useInventory.ts';
 
 export default function InventoryItems()
 {
-    const [
+    const {
         HandleAddmoreItems,
         HandleDelete,
         HandleSave,
-        setItemsDetails,
+        HandleUndoDelete,
         itemsDetails,
-        //setcountCategoryItems,
-        setcountTotalItems,
         countTotalItems,
-        //countCategoryItems,
-        setItemDeleted,
         itemDeleted,
-        itemUndo,
-        setItemUndo,
-        handleUndoDelete
-
-    ] = useInventory();
+     } = useInventory();
    
    
     return(
@@ -29,7 +21,7 @@ export default function InventoryItems()
             Inventory details ({countTotalItems})
             <table>
                 <tbody>
-                    {Object.entries(itemsDetails).map(([category, items]) => {
+                    {itemsDetails && Object.entries(itemsDetails).map(([category, items]) => {
            
                       return( 
                          <tr key={category}>
@@ -43,7 +35,7 @@ export default function InventoryItems()
                                        <li key={item.name}>
                                             {item.name} - ${item.price}
                                             <button onClick={() => HandleDelete(category as ItemTypes, item)}>Delete</button>
-                                            <button onClick={() => HandleSave(item)}>Save</button>
+                                            
                                         </li>
                                        )
                                         :
@@ -67,8 +59,8 @@ export default function InventoryItems()
 
             {itemDeleted && (
                 <div>
-                    <p>Item deleted: {itemDeleted.name}</p>
-                    <button onClick={() => handleUndoDelete()}>Undo</button>
+                    <p>Item deleted: {itemDeleted.item.name} {itemDeleted.item.price}</p>
+                    <button onClick={() => HandleUndoDelete()}>Undo</button>
                 </div>
             )}
         </div>
