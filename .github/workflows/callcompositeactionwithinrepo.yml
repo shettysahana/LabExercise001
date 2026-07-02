@@ -1,0 +1,20 @@
+name: calling composite function within repository 
+
+on: [push]
+
+jobs:
+ helloworld_job:
+   runs-on: ubuntu-latest
+   name: Job to say hello 
+   steps:
+    - uses: actions/checkout@v4
+  
+    - id: foo
+      uses: ./.github/actions/greeting-composite-action
+      with:
+        who-to-greet: "Mona the Octocat"
+
+    - run: echo random-number "$RANDOM_NUMBER"
+      shell: bash
+      env:
+        RANDOM_NUMBER: ${{ steps.foo.outputs.random-number }}
