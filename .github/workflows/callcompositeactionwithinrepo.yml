@@ -10,7 +10,7 @@ jobs:
     - uses: actions/checkout@v4
   
     - id: foo
-      uses: ./github/actions/greeting-composite-action
+      uses: ./.github/actions/greeting-composite-action
       with:
         who-to-greet: "Mona the Octocat"
 
