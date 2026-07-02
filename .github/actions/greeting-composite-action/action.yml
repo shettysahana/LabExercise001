@@ -15,6 +15,7 @@ runs:
   steps:
    - name: 'Greet the user'
      run: echo "Hello ${{ inputs.who-to-greet }}!"
+     shell: bash
    
    - name: 'Generate a random number'
      id: generate-random-number
