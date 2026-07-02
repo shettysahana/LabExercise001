@@ -26,6 +26,14 @@ env:
   ARTIFACT_NAME: 'dotnet-backend-api' # set this to the name of the artifact to be uploaded
   PUBLISH_DIRECTORY_PATH: 'api-backend/publish' # set this to the path to the publish directory
   PROJECT_PATH: 'WebAPI/WebAPI.csproj'
+  
+  #Sample examples
+  mynull: ${{null}}
+  myBoolean: ${{ false}}
+  myInteger: ${{ 42 }}
+  myString: Mona the Octocat
+  myStringInBraces: ${{ 'It ''s open source' }}
+
 
 on:
   push:
@@ -84,6 +92,7 @@ jobs:
 
       - name: dotnet publish
         run: dotnet publish ${{ env.PROJECT_PATH }} -c Release -o ${{ env.PUBLISH_DIRECTORY_PATH }}/${{ env.ASPNETCORE_ENVIRONMENT }}
+             
 
       - name: Upload artifact for deployment job
         uses: actions/upload-artifact@v4
