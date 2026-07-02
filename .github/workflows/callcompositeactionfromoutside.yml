@@ -10,9 +10,10 @@ jobs:
     - uses: actions/checkout@v4
   
     - id: hello
-      uses: shettysahana/hello-world-composite-action@3265b83fdd2123637065d27f2f81bd0ee190335f
+      uses: shettysahana/hello-world-composite-action
       with:
         who-to-greet: "Mona the Octocat"
+
     - run: echo random-number "$RANDOM_NUMBER"
       shell: bash
       env:
