@@ -44,7 +44,7 @@ export default function InventoryItems()
                                         <input type='text' defaultValue={item.name}/>
                                          - $ <input type='text' defaultValue={item.price} />
                                             <button onClick={() => HandleDelete(category as ItemTypes, item)}>Delete</button>
-                                            <button onClick={() => HandleSave(item)}>Save</button>
+                                            <button onClick={() => HandleSave(category, item)}>Save</button>
                                         </li>
                                         )
                                     ))}

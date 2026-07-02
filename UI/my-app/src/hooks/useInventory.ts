@@ -24,19 +24,31 @@ export function useInventory() {
         })
     }, []);
 
-    const HandleSave = useCallback((item: Itemdetails) => {
+    const HandleSave = useCallback((category, item: Itemdetails) => {
         // Logic to save the changes made to the items
         // This could involve sending the updated itemsDetails to a backend server
+        item.source = "Backend";
+         setItemsDetails(prev => {
+            return {
+                ...prev,
+                [category]: [...prev[category] ,item ]
+            }
+        })
         console.log("Saving  changes:", item);
     }, []);
 
     const handleCountCategoryItems = useCallback(() => {
-        
-        const AllitemsCount = Object.values(itemsDetails).
-                             reduce((acc, count) => acc + count.length, 0);
-        setcountTotalItems(AllitemsCount);
+        setItemsDetails(prev => {
+        let count = 0;
+       for(const kcat in prev)
+       {
+        count = count + prev[kcat].length;
+       }
+       setcountTotalItems(count);
+       return prev;
+        });
 
-    }, [itemsDetails]);
+    }, []);
 
     const HandleUndoDelete = useCallback(() => {
         if (itemDeleted) {
@@ -56,11 +68,11 @@ export function useInventory() {
             [category]: [...prevDetails[category], newItem]
         }));
         
-    }, [handleCountCategoryItems(), countTotalItems]);
+    }, []);
 
     useEffect(() => {
         handleCountCategoryItems();
-    },[]);
+    },[itemsDetails]);
 
     return {
         HandleAddmoreItems,
