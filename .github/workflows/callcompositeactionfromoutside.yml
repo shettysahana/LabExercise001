@@ -1,4 +1,4 @@
-name: calling composite function from another repository named hello-world-composite-action
+name: calling composite function from local greeting composite action
 
 on: [push]
 
