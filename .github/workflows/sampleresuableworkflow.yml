@@ -1,0 +1,60 @@
+name: Reusable Workflow Example
+
+on:
+ workflow_call:
+  inputs:
+   config-path:
+    required: true
+    type: string
+   user-name:
+    description: 'A username passed from the caller workflow'
+    required: false
+    type: string
+  secrets:
+     token:
+      required: true
+      #type: string type is not required for secrets, it is always string
+   
+  outputs:
+    firstword:
+     description: 'The first output string'
+     value: ${{ jobs.example_job.outputs.output1 }}
+    secondword:
+     description: 'The second output string'
+     value: ${{ jobs.example_job.outputs.output2 }}
+
+jobs:
+  triage:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/labeler@v6
+      with:
+        repo-token: ${{ secrets.token }}
+        configuration-path: ${{ inputs.config-path }}
+  
+  print-username:
+    runs-on: ubuntu-latest
+    steps:
+    - name: Print username
+      run: echo "Username is ${{ inputs.user-name }}"
+
+
+  workflowA-calls-workflowB:
+    uses: octo-org/example-repo/.github/workflows/B.yml@main
+    secrets: inherit
+
+  example_job:
+    name: generate output
+    runs-on: ubuntu-latest
+    outputs:
+        output1: ${{ steps.step1.outputs.Firstword }}
+        output2: ${{ steps.step2.outputs.Secondword }}
+    steps:
+    - name: Print first words
+      id: step1
+      run: |
+        echo "Firstword=hello" >> $GITHUB_OUTPUT
+    - name: Print second word
+      id: step2
+      run: |
+        echo "Secondword=world" >> $GITHUB_OUTPUT
