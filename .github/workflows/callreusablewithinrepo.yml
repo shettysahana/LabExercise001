@@ -8,7 +8,7 @@ on:
    
 
 jobs:
-  call-reuseable-workflow-outside-repo:
+  call-reusable-workflow-outside-repo:
    uses: octo-org/example-repo/.github/workflows/workflow-A.yml@v1
 
   call-reusable-workflow:
