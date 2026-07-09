@@ -16,7 +16,22 @@ jobs:
   - name: check environment variable 
     run: |
         echo "result::sucess" 
-        echo "output-name=$message" >> $GITHUB_OUTPUT
+        echo "output-name=$sample_env_variable_workflow" >> $GITHUB_OUTPUT
     env:
       sample_env_variable_step: "This is a sample environment variable"
-    
+  
+ example-yaml:
+  env: &env_vars #define anchor on first use
+   Node_ENV: "development"
+   DATABASE_URL: "postgres://user:password@localhost:5432/mydatabase"
+  runs-on: ubuntu-latest
+  steps:
+    - run: |
+        echo "Node_ENV: ${{ env.Node_ENV }}"
+  
+ example-yaml-2:
+  env: *env_vars #reference anchor on subsequent use
+  runs-on: ubuntu-latest
+  steps:
+    - run: | 
+        echo "DATABASE_URL: ${{ env.DATABASE_URL }}"
