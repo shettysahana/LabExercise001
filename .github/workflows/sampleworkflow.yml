@@ -15,8 +15,7 @@ jobs:
   steps:
   - name: check environment variable 
     run: |
-        #echo "Environment variable is ${{ env.sample_env_variable_job }} $sample_env_variable_workflow" 
-        echo "result::sucess" >> $GITHUB_OUTPUT
+        echo "result::sucess" 
     env:
       sample_env_variable_step: "This is a sample environment variable"
     
