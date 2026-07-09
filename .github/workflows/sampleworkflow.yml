@@ -15,7 +15,8 @@ jobs:
   steps:
   - name: check environment variable 
     run: |
-        echo "result::sucess" >> $GITHUB_OUTPUT 
+        echo "result::sucess" 
+        echo "output-name=$message" >> $GITHUB_OUTPUT
     env:
       sample_env_variable_step: "This is a sample environment variable"
     
