@@ -1,8 +1,15 @@
 import { useState } from 'react'
+import {Routes , Route} from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
 import './App.css'
+import Footer from './components/footer'
+import InventoryItems from './components/InventoryItems'
+import Home from './components/Home'
+import About from './components/About'
+import BlogList from './components/BlogList'
+import BlogPost from './components/BlogPost'
 
 function App() {
   const [count, setCount] = useState(0)
@@ -16,10 +23,13 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
+        <InventoryItems></InventoryItems>
+        <Routes>
+            <Route path="" element={<Home/>}></Route>
+            <Route path="/about" element={<About/>}></Route>
+            <Route path="/blogs" element={<BlogList/>}></Route>
+            <Route path="/blogs/:id" element={<BlogPost/>}></Route>
+          </Routes>
         </div>
         <button
           type="button"
@@ -111,10 +121,14 @@ function App() {
             </li>
           </ul>
         </div>
+       
       </section>
 
       <div className="ticks"></div>
-      <section id="spacer"></section>
+          <section id="spacer"></section>
+          <Footer />   
+
+         
     </>
   )
 }

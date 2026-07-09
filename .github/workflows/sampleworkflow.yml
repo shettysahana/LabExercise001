@@ -1,0 +1,22 @@
+name: Sample Workflow
+
+on: 
+    workflow_dispatch
+
+env:
+  sample_env_variable_workflow: "This is a sample environment variable"
+
+jobs:
+ sample_job:
+  runs-on: ubuntu-latest  
+  env:
+    sample_env_variable_job: "This is a sample environment variable"
+
+  steps:
+  - name: check environment variable 
+    run: |
+        echo "Environment variable is ${{ env.sample_env_variable_job }} $sample_env_variable_workflow" 
+        echo "result::sucess" >> $GITHUB_OUTPUT
+    env:
+      sample_env_variable_step: "This is a sample environment variable"
+    
