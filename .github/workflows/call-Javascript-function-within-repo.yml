@@ -1,0 +1,30 @@
+name: call javascript function from within repo
+run-name: ${{github.actor}} running this job on ${{github.repository}} at ${{github.ref}}
+
+on: [push]
+
+jobs:
+ calljavascriptfunction:
+  runs-on: ubuntu-latest
+  steps:
+    - name: Checkout repository
+      uses: actions/checkout@v6
+
+    - name: Hello world action
+      id: hello-world-action
+      uses: ./.github/actions/greeting-javascript-action
+      with: 
+        who-to-greet: ${{github.actor}}
+
+        # output from hello world action step 
+    - name: get output from hello world action
+      run: echo "The time we greeted you was ${{ steps.hello-world-action.outputs.time }}"
+
+    - name: Greeting to Mona Octo cat
+      uses: ./.github/actions/greeting-javascript-action
+      with: 
+        who-to-greet: Mona Octo Cat
+
+    - name: get output time to Mona Octo cat
+      run: echo "The time we greeted you was ${{ steps.greeting-to-mona-octo-cat.outputs.time }}"
+    
