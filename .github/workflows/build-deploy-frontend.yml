@@ -50,6 +50,9 @@ jobs:
     - name: Checkout repository
       uses: actions/checkout@v4
 
+    - name: Show GITHUB TOKEN
+      run: echo "GITHUB TOKEN is $GITHUB_TOKEN"
+
     - name: Set build number
       run: |
           echo "GITHUB_ENV=${GITHUB_ENV}" >> $GITHUB_ENV
