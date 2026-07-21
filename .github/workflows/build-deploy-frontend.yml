@@ -51,7 +51,8 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Show GITHUB TOKEN
-      run: echo "GITHUB TOKEN is ${{ github.token }} and ${{ GITHUB_TOKEN }} and ${ secrets.GITHUB_TOKEN }"
+      run: echo "GITHUB TOKEN is ${{ github.token }}  and ${ secrets.GITHUB_TOKEN }"
+      #and ${{ GITHUB_TOKEN }} : Unrecognized named-value: 'GITHUB_TOKEN'. Located at position 1 within expression: GITHUB_TOKEN
 
     - name: Set build number
       run: |
