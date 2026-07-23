@@ -27,3 +27,19 @@ export const getItemsDetails = (): Record<ItemTypes, Itemdetails[]> => {
 }
 
 
+export interface CountryType extends AutocompleteOption {
+    suggested?: boolean;
+}
+
+export interface CityType extends AutocompleteOption {
+    countryCode: string;
+    suggested?: boolean;
+}
+
+
+export interface AutocompleteOption {
+    code: string;
+    label: string;
+    phone: string;
+}
+

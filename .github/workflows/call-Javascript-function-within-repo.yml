@@ -1,7 +1,11 @@
 name: call javascript function from within repo
 run-name: ${{github.actor}} running this job on ${{github.repository}} at ${{github.ref}}
 
-on: [push]
+on: 
+  push:
+    branches:
+      - main
+      - '!develop'      
 
 jobs:
  calljavascriptfunction:
@@ -21,10 +25,10 @@ jobs:
       run: echo "The time we greeted you was ${{ steps.hello-world-action.outputs.time }}"
 
     - name: Greeting to Mona Octo cat
+      id: greeting-to-mona-octo-cat
       uses: ./.github/actions/greeting-javascript-action
       with: 
         who-to-greet: Mona Octo Cat
 
     - name: get output time to Mona Octo cat
       run: echo "The time we greeted you was ${{ steps.greeting-to-mona-octo-cat.outputs.time }}"
-    

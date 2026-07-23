@@ -1,5 +1,5 @@
 import { useState } from 'react'
-import {Routes , Route} from 'react-router-dom'
+//import {Routes , Route} from 'react-router-dom'
 import reactLogo from './assets/react.svg'
 import viteLogo from './assets/vite.svg'
 import heroImg from './assets/hero.png'
@@ -23,13 +23,16 @@ function App() {
           <img src={viteLogo} className="vite" alt="Vite logo" />
         </div>
         <div>
-        <InventoryItems></InventoryItems>
-        <Routes>
+                  <InventoryItems></InventoryItems>
+                  <About></About>
+       {/* 
+           <Routes>
             <Route path="" element={<Home/>}></Route>
             <Route path="/about" element={<About/>}></Route>
             <Route path="/blogs" element={<BlogList/>}></Route>
             <Route path="/blogs/:id" element={<BlogPost/>}></Route>
-          </Routes>
+           </Routes>
+          */}
         </div>
         <button
           type="button"

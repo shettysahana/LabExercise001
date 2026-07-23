@@ -1,10 +1,10 @@
-import { useParams} from 'react-router-dom' 
+//import { useParams} from 'react-router-dom' 
 export default function BlogPost(){
-const {id} = useParams();
+//const {id} = useParams();
 
     return(
         <div>
-            Blog Post {id}
+            Blog Post {/*id*/}
         </div>
     );
 }

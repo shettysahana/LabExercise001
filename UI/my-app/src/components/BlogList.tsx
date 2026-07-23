@@ -1,4 +1,4 @@
-import { Link } from 'react-router-dom'
+// import { Link } from 'react-router-dom'
 const posts = [
     {
         id:'1', title: 'Understanding'
@@ -17,7 +17,7 @@ export default function BlogList(){
     <ul>
     {posts.map((p) => (
         <li key={p.id}>
-            <Link to={'/blogs/${p.id}'}> {p.title} </Link>
+            {/* <Link to={'/blogs/${p.id}'}> {p.title} </Link> */}
         </li>
     ))
 }
